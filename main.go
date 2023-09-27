@@ -31,6 +31,11 @@ import (
 	"k8s.io/klog/v2"
 )
 
+var (
+	Build   string = ""
+	Version string = "v0.0.0-dev.0"
+)
+
 func main() {
 	c := NewDefaultServerCommand()
 	if err := c.Execute(); err != nil {
@@ -126,6 +131,8 @@ func (o *ServerOptions) Validate() error {
 }
 
 func (o *ServerOptions) Run() error {
+	klog.InfoS("Starting go-autoindex server", "version", Version, "build", Build)
+
 	mux := http.NewServeMux()
 
 	i, err := autoindex.NewIndexer(o.Root, autoindex.Options{
@@ -163,7 +170,6 @@ func (o *ServerOptions) Run() error {
 		d, err := f.Stat()
 		if err != nil {
 			msg, code = toServeError(err)
-
 			http.Error(w, msg, code)
 			return
 		}
@@ -214,7 +220,7 @@ func (o *ServerOptions) Run() error {
 	}
 	if o.tls != nil {
 		go func() {
-			klog.Info("starting http/2 server", "addr", srv.Addr)
+			klog.InfoS("starting http/2 server", "addr", srv.Addr)
 			if err := srv.ListenAndServeTLS(o.CertificateFile, o.PrivateKeyFile); err != nil {
 				if !errors.Is(err, http.ErrServerClosed) {
 					// cannot return from here, because of goroutine
@@ -229,7 +235,7 @@ func (o *ServerOptions) Run() error {
 			srv.Handler = h2c.NewHandler(mux, h2s)
 		}
 		go func() {
-			klog.Info("starting http server", "addr", srv.Addr)
+			klog.InfoS("starting http server", "addr", srv.Addr)
 			if err := srv.ListenAndServe(); err != nil {
 				if !errors.Is(err, http.ErrServerClosed) {
 					// cannot return from here, because of goroutine
