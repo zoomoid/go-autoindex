@@ -1,0 +1,15 @@
+{
+  "name": "go-autoindex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/global.css -o ./dist/global.css --watch",
+    "bundle": "cp src/index.html dist/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
