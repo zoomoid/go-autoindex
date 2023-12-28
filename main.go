@@ -16,6 +16,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/rs/cors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/zoomoid/go-autoindex/pkg/autoindex"
@@ -214,9 +215,11 @@ func (o *ServerOptions) Run() error {
 		http.ServeFile(w, r, absPath)
 	})
 
+	handler := cors.Default().Handler(mux)
+
 	srv := &http.Server{
 		Addr:    o.Listen,
-		Handler: mux,
+		Handler: handler,
 	}
 	if o.tls != nil {
 		go func() {
