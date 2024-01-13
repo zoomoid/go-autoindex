@@ -2,9 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: file-server
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-production-dns01
   labels:
     app.kubernetes.io/name: file-server
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - files.zoomoid.de
+      secretName: file-server-tls
   rules:
     - host: files.zoomoid.de
       http:

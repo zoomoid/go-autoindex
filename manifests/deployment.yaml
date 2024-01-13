@@ -13,14 +13,29 @@ spec:
     spec:
       containers:
         - name: file-server
-          image: ghcr.io/zoomoid/go-autoindex:0.1.0
+          image: ghcr.io/zoomoid/go-autoindex:0.1.1
           resources:
             limits:
               memory: "128Mi"
               cpu: "500m"
           ports:
             - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
           volumeMounts:
             - name: files
               mountPath: /var/www
-      volumes: []
+      volumes:
+        - name: files
+          hostPath:
+            path: /media/file-server/
