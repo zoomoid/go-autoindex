@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/dustin/go-humanize v1.0.1
-	github.com/spf13/cobra v1.8.1
+	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	golang.org/x/net v0.35.0
 	gopkg.in/yaml.v2 v2.4.0
