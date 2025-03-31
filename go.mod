@@ -1,13 +1,13 @@
 module github.com/zoomoid/go-autoindex
 
 go 1.21.0
-toolchain go1.23.7
+toolchain go1.24.1
 
 require (
 	github.com/dustin/go-humanize v1.0.1
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
-	golang.org/x/net v0.37.0
+	golang.org/x/net v0.38.0
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/klog/v2 v2.130.1
 )
